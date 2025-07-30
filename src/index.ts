@@ -5,7 +5,7 @@ import connect from 'database/connect';
 import express from 'express';
 import App from './app';
 
-const app = new App(express());
+const app = new App(express(), "api");
 
 connect(Env.env.MONGO_URL);
 app.listen();

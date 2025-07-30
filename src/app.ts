@@ -43,7 +43,7 @@ class Passport {
           clientID: env.GOOGLE_CLIENT_ID,
           clientSecret: env.GOOGLE_CLIENT_SECRET,
           callbackURL: env.GOOGLE_CALLBACK_URL,
-          scope: ['identify', 'email', 'guilds'],
+          scope: ["profile"],
         },
         async (
           access_token: string,
@@ -89,21 +89,6 @@ class Passport {
   }
 }
 
-class Session {
-  public constructor(public readonly app: Express = express()) {}
-
-  public create = () => {
-    this.app.use(
-      session({
-        secret: env.SESSION_SECRET,
-        resave: Boolean(env.RESAVE),
-        saveUninitialized: Boolean(env.SAVE_UNINITIALISED),
-        cookie: { maxAge: Number(env.COOKIE_AGE) },
-      }),
-    );
-  };
-}
-
 class App {
   public constructor(
     public readonly app: Express,
@@ -124,13 +109,20 @@ class App {
 
     this.app.use(cors({ origin: [env.CLIENT_URL], credentials: true }));
 
+    this.app.use(
+      session({
+        secret: env.SESSION_SECRET,
+        resave: Boolean(env.RESAVE),
+        saveUninitialized: Boolean(env.SAVE_UNINITIALISED),
+        cookie: { maxAge: Number(env.COOKIE_AGE) },
+      })
+    );
+
     this.app.use(express.json());
     this.app.use(express.urlencoded());
 
     this.app.use(google.session());
     this.app.use(google.initialize());
-
-    new Session(this.app);
 
     this.app.use('/' + this.prefix, router);
   }
