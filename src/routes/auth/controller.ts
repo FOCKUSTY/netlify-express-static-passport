@@ -1,7 +1,7 @@
-import { Router } from "express";
-import passport from "passport";
+import { Router } from 'express';
+import passport from 'passport';
 
-import Env from "env";
+import Env from 'env';
 
 const { env } = Env;
 

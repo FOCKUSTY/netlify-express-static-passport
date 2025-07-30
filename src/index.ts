@@ -1,15 +1,13 @@
-import { Env } from "env";
+import { Env } from 'env';
 
-import connect from "database/connect";
+import connect from 'database/connect';
 
-import express from "express";
-import App from "./app";
+import express from 'express';
+import App from './app';
 
-const app = new App(express())
+const app = new App(express());
 
 connect(Env.env.MONGO_URL);
 app.listen();
 
-export {
-  app,
-};
+export { app };
